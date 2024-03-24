@@ -4,6 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 plt.style.use('fivethirtyeight')
+#sns.set_style("whitegrid")
+
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import nltk
 from nltk import word_tokenize
 from collections import Counter
@@ -16,7 +19,7 @@ from PIL import Image
 
 
 # data 
-df = pd.read_csv("data.csv")
+df = pd.read_csv("data/data.csv")
 
 # header
 st.set_page_config(
@@ -28,13 +31,14 @@ st.set_page_config(
 # st.markdown("<h2 style='text-align: center; color: black;font-family: cursive;'>Arthur schopenhauer</h2>", unsafe_allow_html=True)
 
 #img
-image = Image.open('img/arthur3.jpg')
 col1, col2, col3 = st.columns(3)
-col2.image(image, width=300)
+with col2:
+   st.image('img/arthur.jpg', caption='Arthur schopenhauer')
+
 
 # quote 
 quote = "The more unintelligent a man is, the less mysterious existence seems to him. - Arthur schopenhauer-"
-styled_quote = f'<blockquote style="font-style: italic ;text-align: center; color: black:font-size:20px;;"><b>{quote}</b></blockquote>'
+styled_quote = f'<blockquote style="font-style: italic ;text-align: center; color: black:font-size:20px;;">{quote}</blockquote>'
 st.markdown(styled_quote, unsafe_allow_html=True)
 
 
@@ -61,48 +65,50 @@ top_25_freq = list(sorted_freq.values())[:25]
 col1, col2, col3= st.columns(3)
 
 
-# bar plot 
 #st.write(f"Top 25 words in {job_filter}")
-fig, ax = plt.subplots(figsize=(8, 7))
-sns.barplot(y=top_25_words, x=top_25_freq, ax=ax)
-plt.xlabel('Frequency')
-plt.ylabel('Words')
-plt.title((f"Top 25 words in {job_filter}"))
+with st.container():
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.barplot(y=top_25_words, x=top_25_freq, ax=ax,palette=None)
+    plt.xlabel('Frequency')
+    plt.ylabel('Words')
+    plt.title(f"Most frequent words {job_filter}")
 
-col1.pyplot(fig)
+    st.pyplot(fig)
+
+
 
 # Word Cloud
-wordcloud = WordCloud(width = 800, height = 560, random_state=1, 
-                      background_color='white', colormap='Set2', 
-                      collocations=False, stopwords = STOPWORDS)
-wordcloud.generate_from_frequencies(sorted_freq)
+# wordcloud = WordCloud(width = 800, height = 560, random_state=1, 
+#                       background_color='white', colormap='Set2', 
+#                       collocations=False, stopwords = STOPWORDS)
+# wordcloud.generate_from_frequencies(sorted_freq)
 
-col2.image(wordcloud.to_image())
+# col2.image(wordcloud.to_image())
 
 
-# pichart 
-def analyze_sentiment(word):
-    analysis = TextBlob(word)
-    if analysis.sentiment.polarity > 0:
-        return 'Positive'
-    elif analysis.sentiment.polarity < 0:
-        return 'Negative'
-    else:
-        return 'Neutral'
-words = tokens
+# # pichart 
+# def analyze_sentiment(word):
+#     analysis = TextBlob(word)
+#     if analysis.sentiment.polarity > 0:
+#         return 'Positive'
+#     elif analysis.sentiment.polarity < 0:
+#         return 'Negative'
+#     else:
+#         return 'Neutral'
+# words = tokens
 
-sentiments = [analyze_sentiment(word) for word in words]
+# sentiments = [analyze_sentiment(word) for word in words]
 
-df_sentiment = pd.DataFrame({'Word': words, 'Sentiment': sentiments})
+# df_sentiment = pd.DataFrame({'Word': words, 'Sentiment': sentiments})
 
-fig, ax = plt.subplots(figsize=(6, 6))
-df_sentiment['Sentiment'].value_counts().plot.pie(autopct='%1.1f%%', colors=['pink', 'orange', 'gray'])
-ax.set_title((f"Sentiment in  {job_filter}"))
+# fig, ax = plt.subplots(figsize=(6, 6))
+# df_sentiment['Sentiment'].value_counts().plot.pie(autopct='%1.1f%%', colors=['pink', 'orange', 'gray'])
+# ax.set_title((f"Sentiment in  {job_filter}"))
 
-plt.legend(df_sentiment['Sentiment'].value_counts().index, loc='best')
-ax.axis('equal')  
+# plt.legend(df_sentiment['Sentiment'].value_counts().index, loc='best')
+# ax.axis('equal')  
 
-col3.pyplot(fig)
+# col3.pyplot(fig)
 
 
 # Time line  
