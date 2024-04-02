@@ -1,5 +1,5 @@
 <center>
-# Illuminating Wisdom in Text Summaries 📚
+    Illuminating Wisdom in Text Summaries 📚
 </center>
 
 ![Alt Text](./media/v1.gif)
