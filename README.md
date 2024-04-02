@@ -3,7 +3,7 @@
 
 
 <p align="center">
-    <a href="#"><img src="./media/gif." width=700></a>
+    <a href="#"><img src="./media/v1.gif" width=700></a>
 </p>
 
 <br>
