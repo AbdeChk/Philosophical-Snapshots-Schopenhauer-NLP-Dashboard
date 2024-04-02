@@ -1,16 +1,13 @@
+<center>
 # Illuminating Wisdom in Text Summaries 📚
-
-
+</center>
 
 ![Alt Text](./media/v1.gif)
 
-
 <br>
-
 <table>
     <tr><td><img src="#"></td><td><img src="#"></td></tr>
 </table>
-
 
 
 ## Running the app locally
