@@ -2,10 +2,8 @@
 
 
 
-<p align="center">
-    ![Alt Text](./media/v1.gif)
+![Alt Text](./media/v1.gif)
 
-</p>
 
 <br>
 
