@@ -3,7 +3,8 @@
 
 
 <p align="center">
-    <a href="#"><img src="./media/v1.gif" width=700></a>
+    ![Alt Text](./media/v1.gif)
+
 </p>
 
 <br>
