@@ -1,17 +1,11 @@
-# Illuminating Wisdom in Text Summaries 📚
+## Illuminating Wisdom in Text Summaries 📚
 
-
-
-<p align="center">
-    <a href="#"><img src="./media/gif." width=700></a>
-</p>
+![Alt Text](./media/v1.gif)
 
 <br>
-
 <table>
     <tr><td><img src="#"></td><td><img src="#"></td></tr>
 </table>
-
 
 
 ## Running the app locally
