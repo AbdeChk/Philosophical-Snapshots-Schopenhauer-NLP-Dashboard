@@ -3,16 +3,14 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-plt.style.use('fivethirtyeight')
-#sns.set_style("whitegrid")
-
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+sns.set_style("whitegrid")  
+sns.despine(top=True, right=True)
 import nltk
 from nltk import word_tokenize
 from collections import Counter
 from wordcloud import  WordCloud, STOPWORDS, ImageColorGenerator
 from textblob import TextBlob
-from PIL import Image
+# from PIL import Image
 
 # resources 
 # https://matplotlib.org/stable/gallery/lines_bars_and_markers/timeline.html
@@ -48,67 +46,92 @@ st.markdown("<br>", unsafe_allow_html=True)
 # filter
 job_filter = st.selectbox('Select a book:', df['book_title'])
 
+
+#book_img
+left_co, cent_co,last_co = st.columns(3)
+with cent_co:
+    st.image("img/The Art of Literature.jpg")
+
+#book_overview
+st.write("""> **The Art of Literature and The Art of Controversy (1891)** is a collection of essays by renowned German philosopher Arthur Schopenhauer.
+          It encompasses essays on authorship, style, Latin studies, criticism, genius, logic, dialectic, beauty in art, aphorisms, and more.""")
+
+# st.write('\n')
+st.markdown("---")
+
 #book title 
 # st.markdown(f"<h3 style='text-align: center; color: black;font-family: cursive;'>{job_filter}</h2>", unsafe_allow_html=True)
 # st.markdown("<br>", unsafe_allow_html=True)
 
 
+#apply_filter
 will = df[df['book_title'] == job_filter]['text_clean']
 tokens = word_tokenize(will.iloc[0])  # Access the first row's text
 
 # word frequency
 freq = Counter(tokens)
 sorted_freq = dict(sorted(freq.items(), key=lambda x: x[1], reverse=True))
-top_25_words = list(sorted_freq.keys())[:25]
-top_25_freq = list(sorted_freq.values())[:25]
+top_25_words = list(sorted_freq.keys())[:15]
+top_25_freq = list(sorted_freq.values())[:15]
 
-col1, col2, col3= st.columns(3)
+#first_layout
+col1,col2= st.columns(2)
+
+#bar
+with col1:
+   binary_palette = ["#333333"]#,"#242424","#494949","#3b3535","#4a3f3f"]
+   fig, ax = plt.subplots(figsize=(15, 15))
+   sns.barplot(y=top_25_words, x=top_25_freq, ax=ax, palette=binary_palette)
+   plt.xlabel('Frequency',fontsize=25)
+   plt.ylabel('Words',fontsize=25)
+   plt.title(f"Most frequent words '{job_filter}' book ", fontsize=30)
+   plt.xticks(fontsize=30) 
+   plt.yticks(fontsize=30) 
+   col1.pyplot(fig)
+
+#wordcloud
+with col2:
+   wordcloud = WordCloud(width = 400, height = 400, random_state=1, 
+                    background_color='white', colormap='binary', 
+                    collocations=False, stopwords = STOPWORDS)
+   wordcloud.generate_from_frequencies(sorted_freq)
+   col2.image(wordcloud.to_image())
 
 
-#st.write(f"Top 25 words in {job_filter}")
-with st.container():
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.barplot(y=top_25_words, x=top_25_freq, ax=ax,palette=None)
-    plt.xlabel('Frequency')
-    plt.ylabel('Words')
-    plt.title(f"Most frequent words {job_filter}")
+st.markdown("---")
 
-    st.pyplot(fig)
+#second_layout
+col3,col4= st.columns(2)
+
+with col4: 
+   def analyze_sentiment(word):
+    analysis = TextBlob(word)
+    if analysis.sentiment.polarity > 0:
+        return 'Positive'
+    elif analysis.sentiment.polarity < 0:
+        return 'Negative'
+    else:
+        return 'Neutral'
+    
+   words = tokens
+
+   sentiments = [analyze_sentiment(word) for word in words]
+
+   df_sentiment = pd.DataFrame({'Word': words, 'Sentiment': sentiments})
+
+   fig, ax = plt.subplots(figsize=(6, 6))
+   df_sentiment['Sentiment'].value_counts().plot.pie(autopct='%1.1f%%', startangle=90, colors=['#31333f', '#878080', '#c2b6b6'])
+   centre_circle = plt.Circle((0, 0), 0.7, color='white', fc='white', linewidth=1.25)
+   fig.gca().add_artist(centre_circle)
+
+   ax.set_title((f"Sentiment in  {job_filter}"))
+
+   plt.legend(df_sentiment['Sentiment'].value_counts().index, loc='best')
+   ax.axis('equal')  
+
+   col3.pyplot(fig)
 
 
-
-# Word Cloud
-# wordcloud = WordCloud(width = 800, height = 560, random_state=1, 
-#                       background_color='white', colormap='Set2', 
-#                       collocations=False, stopwords = STOPWORDS)
-# wordcloud.generate_from_frequencies(sorted_freq)
-
-# col2.image(wordcloud.to_image())
-
-
-# # pichart 
-# def analyze_sentiment(word):
-#     analysis = TextBlob(word)
-#     if analysis.sentiment.polarity > 0:
-#         return 'Positive'
-#     elif analysis.sentiment.polarity < 0:
-#         return 'Negative'
-#     else:
-#         return 'Neutral'
-# words = tokens
-
-# sentiments = [analyze_sentiment(word) for word in words]
-
-# df_sentiment = pd.DataFrame({'Word': words, 'Sentiment': sentiments})
-
-# fig, ax = plt.subplots(figsize=(6, 6))
-# df_sentiment['Sentiment'].value_counts().plot.pie(autopct='%1.1f%%', colors=['pink', 'orange', 'gray'])
-# ax.set_title((f"Sentiment in  {job_filter}"))
-
-# plt.legend(df_sentiment['Sentiment'].value_counts().index, loc='best')
-# ax.axis('equal')  
-
-# col3.pyplot(fig)
 
 
 # Time line  
