@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set_style("whitegrid")  
@@ -10,7 +9,7 @@ from nltk import word_tokenize
 from collections import Counter
 from wordcloud import  WordCloud, STOPWORDS, ImageColorGenerator
 from textblob import TextBlob
-# from PIL import Image
+import glob
 
 # resources 
 # https://matplotlib.org/stable/gallery/lines_bars_and_markers/timeline.html
@@ -39,9 +38,7 @@ quote = "The more unintelligent a man is, the less mysterious existence seems to
 styled_quote = f'<blockquote style="font-style: italic ;text-align: center; color: black:font-size:20px;;">{quote}</blockquote>'
 st.markdown(styled_quote, unsafe_allow_html=True)
 
-
 st.markdown("<br>", unsafe_allow_html=True)
-
 
 # filter
 job_filter = st.selectbox('Select a book:', df['book_title'])
@@ -50,8 +47,13 @@ job_filter = st.selectbox('Select a book:', df['book_title'])
 #book_img
 left_co, cent_co,last_co = st.columns(3)
 with cent_co:
-    st.image("img/The Art of Literature.jpg")
-
+    img_path = "./img/*.jpg"
+    imges = glob.glob(img_path)
+    for img in imges:
+       book_name, _, _ = img.partition("\\")[-1].partition(".")
+       if book_name == job_filter:
+        st.image(f"img/{book_name}.jpg")
+    
 #book_overview
 st.write("""> **The Art of Literature and The Art of Controversy (1891)** is a collection of essays by renowned German philosopher Arthur Schopenhauer.
           It encompasses essays on authorship, style, Latin studies, criticism, genius, logic, dialectic, beauty in art, aphorisms, and more.""")
