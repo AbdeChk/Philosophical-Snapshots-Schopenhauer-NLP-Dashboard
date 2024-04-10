@@ -15,8 +15,17 @@ import glob
 # https://matplotlib.org/stable/gallery/lines_bars_and_markers/timeline.html
 
 
-# data 
-df = pd.read_csv("data/data.csv")
+# data
+def data_wrangling(path):
+    df = pd.read_csv(path)
+    # Assign new book title
+    new_values = ['The World As Will And Idea Vol1', 'The World As Will And Idea Vol2', 'The World As Will And Idea Vol3']
+    df.loc[8, 'book_title'] = new_values[0]
+    df.loc[9, 'book_title'] = new_values[1]
+    df.loc[10, 'book_title'] = new_values[2]
+   
+    return df 
+
 
 # header
 st.set_page_config(
@@ -41,21 +50,24 @@ st.markdown(styled_quote, unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
 
 # filter
+df = data_wrangling("data/data.csv")
 job_filter = st.selectbox('Select a book:', df['book_title'])
 
 
-#book_img
-left_co, cent_co,last_co = st.columns(3)
-with cent_co:
+left_side, cent_side, right_side = st.columns(3)
+
+with left_side:
+    #book_img
     img_path = "./img/*.jpg"
     imges = glob.glob(img_path)
     for img in imges:
        book_name, _, _ = img.partition("\\")[-1].partition(".")
        if book_name == job_filter:
-        st.image(f"img/{book_name}.jpg")
-    
-#book_overview
-st.write("""> **The Art of Literature and The Art of Controversy (1891)** is a collection of essays by renowned German philosopher Arthur Schopenhauer.
+        st.image(f"img/{book_name}.jpg", width=250)
+        
+with cent_side:
+   #book_overview
+   st.write("""> **The Art of Literature and The Art of Controversy (1891)** is a collection of essays by renowned German philosopher Arthur Schopenhauer.
           It encompasses essays on authorship, style, Latin studies, criticism, genius, logic, dialectic, beauty in art, aphorisms, and more.""")
 
 # st.write('\n')
