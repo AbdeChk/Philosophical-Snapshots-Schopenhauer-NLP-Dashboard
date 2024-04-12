@@ -13,7 +13,9 @@ st.markdown("""
 
 st.markdown("<p style='text-align: left; color: black;'><b>Note:</b></p>", unsafe_allow_html=True)
 
-st.markdown('Data processing is not well verified')
+st.markdown("We've noticed some inaccuracies and insufficient processing in our data. We're actively working on fixing these errors to ensure accurate information.")
 st.markdown("<p style='text-align: left; color: black;'><b>resources:</b></p>", unsafe_allow_html=True)
+
+st.markdown("[Kaggle](https://www.kaggle.com/datasets/akouaorsot/schopenhauer-work-corpus)")
 
 
