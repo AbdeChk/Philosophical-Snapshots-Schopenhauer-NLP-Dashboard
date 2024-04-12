@@ -1,6 +1,6 @@
 ## Illuminating Wisdom in Text Summaries 📚
 
-![Alt Text](./media/v1.mp4)
+![Alt Text](./media/v1.gif)
 
 <br>
 <table>
