@@ -1,6 +1,8 @@
 matplotlib==3.8.4
+networkx==3.3
 nltk==3.8.1
 pandas==2.2.2
+scikit_learn==1.4.2
 seaborn==0.13.2
 streamlit==1.32.2
 textblob==0.18.0.post0

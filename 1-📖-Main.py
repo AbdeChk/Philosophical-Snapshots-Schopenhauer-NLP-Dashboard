@@ -2,14 +2,19 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set_style("whitegrid")  
-sns.despine(top=True, right=True)
-import nltk
+import networkx as nx
+from textblob import TextBlob
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 from nltk import word_tokenize
 from collections import Counter
 from wordcloud import  WordCloud, STOPWORDS, ImageColorGenerator
 from textblob import TextBlob
+import nltk
 import glob
+
+sns.set_style("whitegrid")  
+sns.despine(top=True, right=True)
 
 # resources 
 # https://matplotlib.org/stable/gallery/lines_bars_and_markers/timeline.html
@@ -101,7 +106,7 @@ with col1:
    fig, ax = plt.subplots(figsize=(15, 15))
    sns.barplot(y=top_25_words, x=top_25_freq, ax=ax, palette=binary_palette)
    plt.xlabel('Frequency',fontsize=25)
-   plt.ylabel('Words',fontsize=25)
+   #plt.ylabel('Words',fontsize=25)
    plt.title(f"Most frequent words '{job_filter}' book ", fontsize=30)
    plt.xticks(fontsize=30) 
    plt.yticks(fontsize=30) 
@@ -119,9 +124,9 @@ with col2:
 st.markdown("---")
 
 #second_layout
-col3,col4= st.columns(2)
+col3, col6 = st.columns(2)
 
-with col4: 
+with col3: 
    def analyze_sentiment(word):
     analysis = TextBlob(word)
     if analysis.sentiment.polarity > 0:
@@ -148,6 +153,41 @@ with col4:
    ax.axis('equal')  
 
    col3.pyplot(fig)
+
+
+with col6:
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(df['text_clean'])
+    similarity_matrix = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
+    fig, ax = plt.subplots(figsize=(6, 6))
+        
+    G = nx.Graph()
+
+    # nodes
+    for i, row in df.iterrows():
+        G.add_node(row['book_title'], label=row['book_title'], text=row['text_clean'])
+
+    # edges based on similarity
+    for i in range(len(df)):
+        if df.loc[i, 'book_title'] != job_filter:
+            G.add_edge(job_filter, df.loc[i, 'book_title'], weight=similarity_matrix[df.index[df['book_title'] == job_filter][0]][i])
+
+    pos = nx.spring_layout(G)
+
+    # nodes
+    nx.draw_networkx_nodes(G, pos, node_size=500, node_color='#808080', ax=ax)
+
+    # edges
+    nx.draw_networkx_edges(G, pos, width=2, ax=ax)
+
+    # labels
+    nx.draw_networkx_labels(G, pos, font_size=10, font_family='sans-serif', ax=ax)
+
+    ax.set_title('Similarity Network for "{}"'.format(job_filter))
+    ax.axis('off')
+    col6.pyplot(fig)
+    
 
 
 
