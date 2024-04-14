@@ -1,8 +1,13 @@
 matplotlib==3.8.4
+<<<<<<< HEAD
 networkx==3.3
 nltk==3.8.1
 pandas==2.2.2
 scikit_learn==1.4.2
+=======
+nltk==3.8.1
+pandas==2.2.2
+>>>>>>> 8288519fef717a12a2af6923e668c6f9be87ba54
 seaborn==0.13.2
 streamlit==1.32.2
 textblob==0.18.0.post0
