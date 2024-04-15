@@ -8,7 +8,7 @@ st.markdown("""
     <p style='text-align: center;'>This dashboard is inspired by a dataset published on Kaggle that includes
             some of the works of the famous philosopher Arthur Schopenhauer.
             The dashboard includes some text analysis techniques,
-            such as word frequency and sentiment analysis.</p>
+            such as word frequency and sentiment analysis...</p>
 """, unsafe_allow_html=True)
 
 st.markdown("<p style='text-align: left; color: black;'><b>Note:</b></p>", unsafe_allow_html=True)

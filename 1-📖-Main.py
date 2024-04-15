@@ -35,7 +35,7 @@ def data_wrangling(path):
 # header
 st.set_page_config(
     page_title = 'Arthur schopenhauer',
-    page_icon = '📜',
+    page_icon = '🦉',
     layout = 'wide')
 
 # title
@@ -107,7 +107,7 @@ with col1:
    sns.barplot(y=top_25_words, x=top_25_freq, ax=ax, palette=binary_palette)
    plt.xlabel('Frequency',fontsize=25)
    #plt.ylabel('Words',fontsize=25)
-   plt.title(f"Most frequent words '{job_filter}' book ", fontsize=30)
+   #plt.title(f"Most frequent words '{job_filter}' book ", fontsize=30)
    plt.xticks(fontsize=30) 
    plt.yticks(fontsize=30) 
    col1.pyplot(fig)
