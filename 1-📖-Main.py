@@ -16,10 +16,6 @@ import glob
 sns.set_style("whitegrid")  
 sns.despine(top=True, right=True)
 
-# resources 
-# https://matplotlib.org/stable/gallery/lines_bars_and_markers/timeline.html
-
-
 # data
 def data_wrangling(path):
     df = pd.read_csv(path)
@@ -30,7 +26,6 @@ def data_wrangling(path):
     df.loc[10, 'book_title'] = new_values[2]
     df.loc[12,'book_title'] = new_values[3]
     return df 
-
    
 # header
 st.set_page_config(
@@ -45,7 +40,6 @@ st.set_page_config(
 col1, col2, col3 = st.columns(3)
 with col2:
    st.image('img/arthur.jpg', caption='Arthur schopenhauer')
-
 
 # quote 
 quote = "The more unintelligent a man is, the less mysterious existence seems to him. - Arthur schopenhauer-"
@@ -75,17 +69,12 @@ with cent_side:
       overview_text = overview_df.loc[overview_df['book'] == job_filter, 'overview'].values[0]
       st.write(f'**{job_filter}{publishing_date}**{overview_text}')
       
-   #book_overview
-   #st.write("""> **The Art of Literature and The Art of Controversy (1891)** is a collection of essays by renowned German philosopher Arthur Schopenhauer.
-          #It encompasses essays on authorship, style, Latin studies, criticism, genius, logic, dialectic, beauty in art, aphorisms, and more.""")
-
 # st.write('\n')
 st.markdown("---")
 
 #book title 
 # st.markdown(f"<h3 style='text-align: center; color: black;font-family: cursive;'>{job_filter}</h2>", unsafe_allow_html=True)
 # st.markdown("<br>", unsafe_allow_html=True)
-
 
 #apply_filter
 will = df[df['book_title'] == job_filter]['text_clean']
@@ -120,7 +109,6 @@ with col2:
    wordcloud.generate_from_frequencies(sorted_freq)
    col2.image(wordcloud.to_image())
 
-
 st.markdown("---")
 
 #second_layout
@@ -153,7 +141,6 @@ with col3:
    ax.axis('equal')  
 
    col3.pyplot(fig)
-
 
 with col6:
     vectorizer = TfidfVectorizer()
@@ -188,51 +175,4 @@ with col6:
     ax.axis('off')
     col6.pyplot(fig)
     
-
-
-
-
 # Time line  
-
-# dates = df['publishing_date'].to_list()
-# names = df['book_title'].to_list()
-# names[-1] = 'Principle of Sufficient Reason'
-
-# font_size = 20
-
-# # Set default font size for all text elements
-# plt.rc('font', size=font_size)                   # Controls default text sizes
-# plt.rc('axes', labelsize=font_size)              # Axes label font size
-# plt.rc('xtick', labelsize=font_size)             # X-axis tick label font size
-# plt.rc('ytick', labelsize=font_size)             # Y-axis tick label font size
-# plt.rc('legend', fontsize=font_size)             # Legend font size
-# plt.rc('figure', titlesize=font_size)
-
-
-# # Choose some nice levels
-# levels = np.tile([-5, 5, -3, 3, -1, 1], int(np.ceil(len(dates) / 6)))[:len(dates)]
-
-# # Create a figure and plot a stem plot with the date
-# fig, ax = plt.subplots(figsize=(45, 20))
-# ax.set_title("Chronology of Schopenhauer's publications", fontsize=30)
-
-# ax.vlines(dates, 0, levels, color="tab:red")  # The vertical stems.
-# ax.plot(dates, np.zeros_like(dates), "-o", color="k", markerfacecolor="w")  # Baseline and markers on it.
-
-# # Annotate lines
-# for d, l, r in zip(dates, levels, names):
-#     ax.annotate(r, xy=(d, l), xytext=(-3, np.sign(l) * 3), textcoords="offset points",
-#                 horizontalalignment="right", verticalalignment="bottom" if l > 0 else "top")
-
-# # Format x-axis with 4-month intervals
-# plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
-
-# # Remove y-axis and spines
-# ax.yaxis.set_visible(False)
-# ax.spines[["left", "top", "right"]].set_visible(False)
-
-# ax.margins(y=0.2)
-
-# # Display the Matplotlib figure in Streamlit
-# st.pyplot(fig)
-

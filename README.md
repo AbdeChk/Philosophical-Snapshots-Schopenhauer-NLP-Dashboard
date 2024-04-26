@@ -4,7 +4,7 @@
 
 <br>
 <table>
-    <tr><td><img src="#"></td><td><img src="#"></td></tr>
+    <tr><td><img src="/media/f_bar.jpg"></td><td><img src="/media/s_network.jpg"></td></tr>
 </table>
 
 
